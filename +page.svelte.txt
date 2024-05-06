@@ -1,0 +1,356 @@
+<script lang="js">
+  export let data;
+
+  import { scaleLinear } from "d3-scale";
+
+  // Rescaling for x-coordinates
+  const scaleX = scaleLinear().domain([-100, 1000]).range([0, 1000]);
+
+  // Rescaling for mapping the heigth of the batteries
+  const scaleHeight = scaleLinear().domain([0, 25000]).range([0, 800]);
+
+  var showNumber = false;
+
+  var showPopup = false;
+
+  var Year_popup = "0";
+
+  var onShelf_popup = "0";
+
+  var inTransit_popup = "0";
+
+  var gross_popup = "0";
+
+  var popup_top = "0";
+  var popup_left = "0";
+
+  // @ts-ignore
+  function preventResize(event) {
+    event.preventDefault();
+  }
+
+  function togglePopup() {
+    showPopup = !showPopup;
+  }
+  /**
+     * @param {string} year
+     * @param {string} onShelf
+     * @param {string} inTransit
+     * @param {string} gross
+     * @param {string} top
+     * @param {string} left
+     */
+  function handleMouseOver(year, onShelf, inTransit, gross, top, left) {
+    showPopup = !showPopup;
+    Year_popup = year;
+    onShelf_popup = onShelf;
+    inTransit_popup = inTransit;
+    gross_popup = gross;
+
+    popup_top = top + "px";
+    popup_left = left + "px";
+  }
+    
+</script>  
+
+<style>
+  .battery-body {
+    fill: lightgray;
+    stroke-width: 3;
+    overflow: hidden;
+  }
+
+  .fill {
+    fill: #404040;
+    stroke-width: 1;
+  }
+
+  .fill:hover {
+    fill:#ffff00;
+    cursor: pointer;
+  }
+
+  .positive-terminal {
+    fill: lightgray;
+    stroke-width: 3;
+  }
+
+  .popup {
+    display: flexbox;
+    position: absolute;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 5px solid #ccc;
+    border-radius: 5px;
+    color: #cc1919;
+    font-size: 25px;
+    z-index: 1;
+  }
+
+  .popup:hover {
+    display: block;
+  }
+
+  .popup:focus-within {
+    display: block;
+  }
+
+  .h1s {color:blue; 
+            font-family:Arial; 
+            text-align:left;
+            opacity:0.7;
+            font-size:50px;
+            white-space: nowrap;
+  }  
+</style>
+
+
+<h1 class="h1s">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+  Data Visualisation Project - Group 31: Implementation of Fig. 2</h1>
+<br>
+
+<svg width="3000" height="4000" on:resize={preventResize}>
+
+  <text x="70" y="550" text-anchor="start" font-size="30" fill="blue" class="legend">CAR</text>
+  <text x="20" y="600" text-anchor="start" font-size="30" fill="blue" class="legend">BATTERIES</text>
+  
+  <text x="60" y="1400" text-anchor="start" font-size="30" fill="blue">HOME</text>
+  <text x="20" y="1450" text-anchor="start" font-size="30" fill="blue">BATTERIES</text>
+
+  {#each data.cities as datapoint}
+    {#if datapoint.PlantKey > 0}
+        <text
+          x={scaleX(datapoint.BatteryX) + 65}
+          y="950"
+          text-anchor="middle"
+          font-size="24"
+          fill="black">{datapoint.Plant}</text
+        >
+      
+        <text
+        x={scaleX(datapoint.BatteryX) + 65}
+        y="1550"
+        text-anchor="middle"
+        font-size="24"
+        fill="black">{datapoint.Plant}</text
+      >
+
+      {#each data.inventory as invent}
+
+      <!-- Car Batteries -->
+        {#if invent.Inventory_SnapshotYear == 2022 && invent.PlantKey == datapoint.PlantKey && invent.MaterialDescription === "EV Car Battery"}
+          <rect
+            class="battery-body"
+            x={scaleX(datapoint.BatteryX)}
+            y={900 - scaleHeight(datapoint.BatteryHeight_CarBat)}
+            width="50"
+            height={scaleHeight(datapoint.BatteryHeight_CarBat)}
+            stroke="blue"
+            stroke-width="3"
+          />
+
+          <rect
+            class="positive-terminal"
+            x={scaleX(datapoint.BatteryX) + 10}
+            y={890 - scaleHeight(datapoint.BatteryHeight_CarBat)}
+            width="30"
+            height="10"
+            stroke="blue"
+            stroke-width="3"
+          />
+          <rect
+            on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear,invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
+              ,'300','2700')}
+            on:focus={togglePopup}
+            on:mouseleave={togglePopup} 
+            role="button" 
+            tabindex="0"
+            class="fill"
+            x={scaleX(datapoint.BatteryX)+4}
+            y={900 -
+              scaleHeight(datapoint.BatteryHeight_CarBat) +
+              (scaleHeight(datapoint.BatteryHeight_CarBat) -
+                scaleHeight(datapoint.BatteryHeight_CarBat) *
+                  (invent.OnShelfInventoryQuantity / datapoint.BatteryHeight_CarBat))}
+            width="42"
+            height={scaleHeight(datapoint.BatteryHeight_CarBat) *
+              (invent.OnShelfInventoryQuantity / datapoint.BatteryHeight_CarBat)}
+            stroke-width="1"
+          />
+  
+          <text
+            x={scaleX(datapoint.BatteryX) + 25}
+            y={880 - scaleHeight(datapoint.BatteryHeight_CarBat)}
+            text-anchor="middle"
+            font-size="19">{invent.Inventory_SnapshotYear}</text
+          >
+
+        {/if}
+        
+        {#if invent.Inventory_SnapshotYear == 2023 && invent.PlantKey == datapoint.PlantKey && invent.MaterialDescription === "EV Car Battery"}
+        
+        <rect
+            class="battery-body"
+            x={scaleX(datapoint.BatteryX) + 80}
+            y={900 - scaleHeight(datapoint.BatteryHeight_CarBat)}
+            width="50"
+            height={scaleHeight(datapoint.BatteryHeight_CarBat)}
+            stroke="green"
+            stroke-width="3"
+          />
+
+          <rect
+            class="positive-terminal"
+            x={scaleX(datapoint.BatteryX) + 90}
+            y={890 - scaleHeight(datapoint.BatteryHeight_CarBat)}
+            width="30"
+            height="10"
+            stroke="green"
+            stroke-width="3"
+          />
+
+          <rect 
+            on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear,invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
+              , '300','2700')}
+            on:focus={togglePopup}
+            on:mouseleave={togglePopup} 
+            role="button" 
+            tabindex="0"
+            class="fill"
+            x={scaleX(datapoint.BatteryX) + 80 + 4}
+            y={900 -
+              scaleHeight(datapoint.BatteryHeight_CarBat) +
+              (scaleHeight(datapoint.BatteryHeight_CarBat) -
+                scaleHeight(datapoint.BatteryHeight_CarBat) *
+                  (invent.OnShelfInventoryQuantity / datapoint.BatteryHeight_CarBat))}
+            width="42"
+            height={scaleHeight(datapoint.BatteryHeight_CarBat) *
+              (invent.OnShelfInventoryQuantity / datapoint.BatteryHeight_CarBat)}
+            stroke-width="1"
+        /> 
+
+          <text
+            x={scaleX(datapoint.BatteryX) + 105}
+            y={880 - scaleHeight(datapoint.BatteryHeight_CarBat)}
+            text-anchor="middle"
+            font-size="19">{invent.Inventory_SnapshotYear}</text
+          >
+        {/if}
+
+
+        <!-- Home Batteries -->
+
+        {#if invent.Inventory_SnapshotYear == 2022 && invent.PlantKey == datapoint.PlantKey && invent.MaterialDescription === "Home Battery"}
+          <rect
+            class="battery-body"
+            x={scaleX(datapoint.BatteryX_HomeBat)}
+            y={1500 - scaleHeight(datapoint.BatteryHeight_HomeBat)}
+            width="50"
+            height={scaleHeight(datapoint.BatteryHeight_HomeBat)}
+            stroke="blue"
+            stroke-width="1"
+          />
+          <rect
+            class="positive-terminal"
+            x={scaleX(datapoint.BatteryX) + 10}
+            y={1490 - scaleHeight(datapoint.BatteryHeight_HomeBat)}
+            width="30"
+            height="10"
+            stroke="blue"
+            stroke-width="1"
+          />
+          <rect
+          on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear,invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
+            ,'1200','2700')}
+          on:focus={togglePopup}
+          on:mouseleave={togglePopup} 
+          role="button" 
+          tabindex="0"
+
+            class="fill"
+            x={scaleX(datapoint.BatteryX_HomeBat) + 4}
+            y={1500 -
+              scaleHeight(datapoint.BatteryHeight_HomeBat) +
+              (scaleHeight(datapoint.BatteryHeight_HomeBat) -
+                scaleHeight(datapoint.BatteryHeight_HomeBat) *
+                  (invent.OnShelfInventoryQuantity / datapoint.BatteryHeight_HomeBat))}
+            width="42"
+            height={scaleHeight(datapoint.BatteryHeight_HomeBat) *
+              (invent.OnShelfInventoryQuantity / datapoint.BatteryHeight_HomeBat)}
+            stroke-width="1"
+
+            
+          />
+          <text
+            x={scaleX(datapoint.BatteryX) + 25}
+            y={1480 - scaleHeight(datapoint.BatteryHeight_HomeBat)}
+            text-anchor="middle"
+            font-size="19">{invent.Inventory_SnapshotYear}</text
+          >
+        {/if}
+
+        {#if invent.Inventory_SnapshotYear == 2023 && invent.PlantKey == datapoint.PlantKey && invent.MaterialDescription === "Home Battery"}
+          <rect
+          class="battery-body"
+          x={scaleX(datapoint.BatteryX)+80}
+          y={1500 - scaleHeight(datapoint.BatteryHeight_HomeBat)}
+          width="50"
+          height={scaleHeight(datapoint.BatteryHeight_HomeBat)}
+          stroke="green"
+          stroke-width="1"
+          />
+          <rect
+            class="positive-terminal"
+            x={scaleX(datapoint.BatteryX) + 90}
+            y={1490 - scaleHeight(datapoint.BatteryHeight_HomeBat)}
+            width="30"
+            height="10"
+            stroke="green"
+            stroke-width="1"
+          />
+          <rect
+
+          on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear,invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
+            ,'1200','2700')}
+          on:focus={togglePopup}
+          on:mouseleave={togglePopup} 
+          role="button" 
+          tabindex="0"
+
+            class="fill"
+            x={scaleX(datapoint.BatteryX) + 80 + 4}
+            y={1500 -
+              scaleHeight(datapoint.BatteryHeight_HomeBat) +
+              (scaleHeight(datapoint.BatteryHeight_HomeBat) -
+                scaleHeight(datapoint.BatteryHeight_HomeBat) *
+                  (invent.OnShelfInventoryQuantity / datapoint.BatteryHeight_HomeBat))}
+            width="42"
+            height={scaleHeight(datapoint.BatteryHeight_HomeBat) *
+              (invent.OnShelfInventoryQuantity / datapoint.BatteryHeight_HomeBat) }
+            stroke-width="1"
+          />
+          <text
+            x={scaleX(datapoint.BatteryX_HomeBat) + 105}
+            y={1480 - scaleHeight(datapoint.BatteryHeight_HomeBat)}
+            text-anchor="middle"
+            font-size="19">{invent.Inventory_SnapshotYear}</text
+          >
+        {/if}
+      {/each}
+    {/if}
+    
+  {/each}
+
+</svg>
+
+
+{#if showPopup}
+<div id="myPopup" class="popup" role="dialog" aria-label="Popup Dialog" style="left: {popup_left}; top: {popup_top}" >
+  Year : {Year_popup} <br/>
+  On-shelf : {onShelf_popup} <br/>
+  In-transit : {inTransit_popup} <br/>
+  Gross: {gross_popup}
+</div>
+{/if}
+
+

@@ -1,0 +1,33 @@
+// since there's no dynamic data here, we can prerender
+// it so that it gets served as a static asset in production
+export const prerender = true;
+
+
+import Papa from 'papaparse'
+
+export const load = async ({ fetch }) => {
+
+      // Inventory data
+      const responseInventoryData = await fetch('http://localhost:5173/Inventory.csv', {
+        headers: {
+          'Content-Type': 'text/csv'
+      }})
+      let csvInventoryData = await responseInventoryData.text()
+      let parsedCsvInventoryData = Papa.parse(csvInventoryData, {header: true})
+     
+      
+     // Cities data
+     const responseCitiesCoordinates = await fetch('http://localhost:5173/CitiesCoordinates.csv', {
+      headers: {
+        'Content-Type': 'text/csv'
+      }})
+      let csvCitiesCoordinates = await responseCitiesCoordinates.text()
+      let parsedCsvCitiesCoordinates = Papa.parse(csvCitiesCoordinates, {header: true})     
+
+  return {
+    inventory: parsedCsvInventoryData.data,
+    cities: parsedCsvCitiesCoordinates.data      
+    }
+}
+
+export const ssr = false;

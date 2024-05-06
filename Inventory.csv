@@ -1,0 +1,41 @@
+MaterialKey;MaterialDescription;PlantKey;Plant;PlantCity;Inventory_SnapshotYear;OnShelfInventoryQuantity;IntransitInventoryQuantity;GrossInventoryQuantity
+1;EV Car Battery;4;ANT2;Antwerp;2022;23836;2874;26710
+1;EV Car Battery;4;ANT2;Antwerp;2023;19838;2127;21965
+1;EV Car Battery;4;ANT2;Antwerp;2024;2367;344;2711
+1;EV Car Battery;4;ANT2;Antwerp;2021;1626;127;1753
+2;Home Battery;4;ANT2;Antwerp;2021;566;48;614
+2;Home Battery;4;ANT2;Antwerp;2022;4143;223;4366
+2;Home Battery;4;ANT2;Antwerp;2023;1804;187;1991
+2;Home Battery;4;ANT2;Antwerp;2024;94;14;108
+1;EV Car Battery;7;BIR2;Birmingham;2022;881;60;941
+1;EV Car Battery;7;BIR2;Birmingham;2023;588;59;647
+1;EV Car Battery;7;BIR2;Birmingham;2021;93;12;105
+1;EV Car Battery;7;BIR2;Birmingham;2024;42;6;48
+2;Home Battery;7;BIR2;Birmingham;2021;22;3;25
+2;Home Battery;7;BIR2;Birmingham;2022;235;27;262
+2;Home Battery;7;BIR2;Birmingham;2023;185;21;206
+2;Home Battery;7;BIR2;Birmingham;2024;10;1;11
+1;EV Car Battery;8;GOT2;Göteborg;2023;6828;652;7480
+1;EV Car Battery;8;GOT2;Göteborg;2022;6471;436;6907
+1;EV Car Battery;8;GOT2;Göteborg;2021;915;113;1028
+1;EV Car Battery;8;GOT2;Göteborg;2024;426;61;487
+2;Home Battery;8;GOT2;Göteborg;2021;663;86;749
+2;Home Battery;8;GOT2;Göteborg;2022;7669;658;8327
+2;Home Battery;8;GOT2;Göteborg;2023;5935;558;6493
+2;Home Battery;8;GOT2;Göteborg;2024;414;64;478
+1;EV Car Battery;6;LYO2;Lyon;2021;1430;113;1543
+1;EV Car Battery;6;LYO2;Lyon;2022;10943;392;11335
+1;EV Car Battery;6;LYO2;Lyon;2023;4456;350;4806
+1;EV Car Battery;6;LYO2;Lyon;2024;220;13;233
+2;Home Battery;6;LYO2;Lyon;2021;520;71;591
+2;Home Battery;6;LYO2;Lyon;2022;7087;434;7521
+2;Home Battery;6;LYO2;Lyon;2023;5653;506;6159
+2;Home Battery;6;LYO2;Lyon;2024;294;39;333
+1;EV Car Battery;5;WRO2;Wrocław;2022;6708;460;7168
+1;EV Car Battery;5;WRO2;Wrocław;2023;4301;519;4820
+1;EV Car Battery;5;WRO2;Wrocław;2021;746;48;794
+1;EV Car Battery;5;WRO2;Wrocław;2024;257;31;288
+2;Home Battery;5;WRO2;Wrocław;2021;250;31;281
+2;Home Battery;5;WRO2;Wrocław;2022;2776;116;2892
+2;Home Battery;5;WRO2;Wrocław;2023;3455;272;3727
+2;Home Battery;5;WRO2;Wrocław;2024;244;33;277
