@@ -15,6 +15,8 @@
 
   var Year_popup = "0";
 
+  var Plant_popup = "0"
+
   var onShelf_popup = "0";
 
   var inTransit_popup = "0";
@@ -34,15 +36,17 @@
   }
   /**
      * @param {string} year
+     * * @param {string} plant
      * @param {string} onShelf
      * @param {string} inTransit
      * @param {string} gross
      * @param {string} top
      * @param {string} left
      */
-  function handleMouseOver(year, onShelf, inTransit, gross, top, left) {
+  function handleMouseOver(year, plant, onShelf, inTransit, gross, top, left) {
     showPopup = !showPopup;
     Year_popup = year;
+    Plant_popup = plant;
     onShelf_popup = onShelf;
     inTransit_popup = inTransit;
     gross_popup = gross;
@@ -128,7 +132,7 @@
         >
       
         <text
-        x={scaleX(datapoint.BatteryX) + 65}
+        x={scaleX(datapoint.BatteryX_HomeBat) + 65}
         y="1550"
         text-anchor="middle"
         font-size="24"
@@ -159,7 +163,7 @@
             stroke-width="3"
           />
           <rect
-            on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear,invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
+            on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear,invent.PlantCity, invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
               ,'300','2700')}
             on:focus={togglePopup}
             on:mouseleave={togglePopup} 
@@ -210,7 +214,7 @@
           />
 
           <rect 
-            on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear,invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
+            on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear,invent.PlantCity, invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
               , '300','2700')}
             on:focus={togglePopup}
             on:mouseleave={togglePopup} 
@@ -252,7 +256,7 @@
           />
           <rect
             class="positive-terminal"
-            x={scaleX(datapoint.BatteryX) + 10}
+            x={scaleX(datapoint.BatteryX_HomeBat) + 10}
             y={1490 - scaleHeight(datapoint.BatteryHeight_HomeBat)}
             width="30"
             height="10"
@@ -260,7 +264,7 @@
             stroke-width="1"
           />
           <rect
-          on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear,invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
+          on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear, invent.PlantCity, invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
             ,'1200','2700')}
           on:focus={togglePopup}
           on:mouseleave={togglePopup} 
@@ -282,7 +286,7 @@
             
           />
           <text
-            x={scaleX(datapoint.BatteryX) + 25}
+            x={scaleX(datapoint.BatteryX_HomeBat) + 25}
             y={1480 - scaleHeight(datapoint.BatteryHeight_HomeBat)}
             text-anchor="middle"
             font-size="19">{invent.Inventory_SnapshotYear}</text
@@ -292,7 +296,7 @@
         {#if invent.Inventory_SnapshotYear == 2023 && invent.PlantKey == datapoint.PlantKey && invent.MaterialDescription === "Home Battery"}
           <rect
           class="battery-body"
-          x={scaleX(datapoint.BatteryX)+80}
+          x={scaleX(datapoint.BatteryX_HomeBat)+80}
           y={1500 - scaleHeight(datapoint.BatteryHeight_HomeBat)}
           width="50"
           height={scaleHeight(datapoint.BatteryHeight_HomeBat)}
@@ -301,7 +305,7 @@
           />
           <rect
             class="positive-terminal"
-            x={scaleX(datapoint.BatteryX) + 90}
+            x={scaleX(datapoint.BatteryX_HomeBat) + 90}
             y={1490 - scaleHeight(datapoint.BatteryHeight_HomeBat)}
             width="30"
             height="10"
@@ -310,7 +314,7 @@
           />
           <rect
 
-          on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear,invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
+          on:mouseover={() => handleMouseOver(invent.Inventory_SnapshotYear, invent.PlantCity, invent.OnShelfInventoryQuantity,invent.IntransitInventoryQuantity,invent.GrossInventoryQuantity
             ,'1200','2700')}
           on:focus={togglePopup}
           on:mouseleave={togglePopup} 
@@ -318,7 +322,7 @@
           tabindex="0"
 
             class="fill"
-            x={scaleX(datapoint.BatteryX) + 80 + 4}
+            x={scaleX(datapoint.BatteryX_HomeBat) + 80 + 4}
             y={1500 -
               scaleHeight(datapoint.BatteryHeight_HomeBat) +
               (scaleHeight(datapoint.BatteryHeight_HomeBat) -
@@ -347,9 +351,10 @@
 {#if showPopup}
 <div id="myPopup" class="popup" role="dialog" aria-label="Popup Dialog" style="left: {popup_left}; top: {popup_top}" >
   Year : {Year_popup} <br/>
-  On-shelf : {onShelf_popup} <br/>
-  In-transit : {inTransit_popup} <br/>
-  Gross: {gross_popup}
+  Plant: {Plant_popup} <br/>
+  On-shelf inventory: {onShelf_popup} <br/>
+  In-transit inventory : {inTransit_popup} <br/>
+  Gross inventory: {gross_popup}
 </div>
 {/if}
 
